@@ -33,7 +33,7 @@ E : '&&';
 ID  :
   (LET|'_'|NUM)+;
 
-WS_ : (' ' | '\n' ) -> skip;
+WS_ : (' ' | '\n'|'\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
 
