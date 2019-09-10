@@ -28,10 +28,12 @@ MENORMAIOR : '<';
 MENORIGUAL : '<=';
 MENORDIFERENTE: '!=';
 E : '&&';
+RESERVED :'boolean'|'callout'|'class'|'int'|'return'|'void'|'for'|'break'|'continue';
+BOOLEAN : 'true'|'false';
 
 
 ID  :
-  (LET|'_'|NUM)+;
+  (LET|'_'|NUM|'forpar')+;
 
 WS_ : (' ' | '\n'|'\t' ) -> skip;
 
@@ -39,7 +41,7 @@ SL_COMMENT : '//' (~'\n')* '\n' -> skip;
 
 CHAR : '\'' (ESC|LET|NUM)'\'';
 STRING : '\"' (WS_|ESC|NUM|LET|SIMB)*'\"';
-HEXLIT : '0x'(HEXDIGITO|NUM)+;
+HEXLIT : '0x'(NUM|HEXDIGITO)+;
 NUM : ('0'..'9');
 
 fragment

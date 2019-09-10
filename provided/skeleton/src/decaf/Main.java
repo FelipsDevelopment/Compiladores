@@ -42,8 +42,10 @@ class Main {
 							break;
 						case DecafLexer.STRING:
 							type = " STRINGLITERAL";
-							break;   
-						
+							break;
+						case DecafLexer.BOOLEAN:
+   							type =" BOOLEANLITERAL";
+							break;
 		        			}
 		        			System.out.println (token.getLine() + type + " " + text);
 		        		}
