@@ -14,35 +14,28 @@ tokens
   TK_class
 }
 
-IF : 'if'|'else';
-LCURLY : '{';
-RCURLY : '}';
-PLEFT  : '('; 
-PRIGHT : ')';
-CLEFT  : '[';
-CRIGHT : ']';
-ADICAO : '+';
-SUB    : '-';
-MULTI  : '*';
-MENORMAIOR : '<';
-MENORIGUAL : '<=';
-MENORDIFERENTE: '!=';
-E : '&&';
-RESERVED :'boolean'|'callout'|'class'|'int'|'return'|'void'|'for'|'break'|'continue';
-BOOLEAN : 'true'|'false';
+
+SINAIS     : '{'|'}'|'('|')'|'['|']'|'|'|';'|','|'&&';
+OPERADORES : '+'|'-'|'*'|'<'|'>'|'<='|'!='|'=';
+RESERVED   : 'boolean'|'callout'|'class'|'int'|'return'|'void'|'for'|'break'|'continue';
+BOOLEAN	   : 'true'|'false';
+IF	   : 'if'|'else';
 
 
-ID  :
-  (LET|'_'|NUM|'forpar')+;
+HEXLIT : (HEXDIGITO|NUM)+;
+
+NUM : ('0'..'9');
+
+CHAR : '\'' (ESC|NUM|LET)'\'';
+
+STRING : '\"' (WS_|ESC|NUM|LET|SIMB)*'\"';
+
+ID  : (LET|'_'|NUM|'forpar')+;
 
 WS_ : (' ' | '\n'|'\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
 
-CHAR : '\'' (ESC|LET|NUM)'\'';
-STRING : '\"' (WS_|ESC|NUM|LET|SIMB)*'\"';
-HEXLIT : '0x'(NUM|HEXDIGITO)+;
-NUM : ('0'..'9');
 
 fragment
 ESC :  '\\' ('n'|'t'|'"'|'\\');
@@ -54,6 +47,6 @@ fragment
 LET :  ('a'..'z'|'A'..'Z');
 
 fragment
-HEXDIGITO : ('a'..'f'|'A'..'F'); 
+HEXDIGITO : '0x'(NUM|'a'..'f'|'A'..'F')+; 
 
 
