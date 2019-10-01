@@ -46,10 +46,12 @@ class Main {
 						case DecafLexer.BOOLEAN:
    							type =" BOOLEANLITERAL";
 							break;
-                                                
 		        			}
+
 		        			System.out.println (token.getLine() + type + " " + text);
+
 		        		}
+
 		        		done = true;
         			} catch(Exception e) {
         	        	// print the error:

@@ -15,11 +15,39 @@ tokens
 }
 
 
-SINAIS     : '{'|'}'|'('|')'|'['|']'|'|'|';'|','|'&&';
-OPERADORES : '+'|'-'|'*'|'<'|'>'|'<='|'!='|'=';
-RESERVED   : 'boolean'|'callout'|'class'|'int'|'return'|'void'|'for'|'break'|'continue';
-BOOLEAN	   : 'true'|'false';
-IF	   : 'if'|'else';
+PARENTESESDIR   : ')';	 
+PARENTESESESQ   : '(';
+CHAVEDIR        : '}';
+CHAVESQ         : '{';
+COLCHETEDIR	: ']';
+COLCHETESQ	: '[';
+PONTOVIRGULA	: ';';
+VIRGULA		: ',';
+BARRAVERTICAL	: '|';
+AND        	: '&&';
+BOOL		: 'boolean';
+CALL		: 'callout';
+CLASS		: 'class';
+INT		: 'int';
+RETURN		: 'return';
+VOID		: 'void';
+FOR		: 'for';
+BREAK		: 'break';
+MAIN		: 'main';
+PROGRAM		: 'Program';
+CONTINUE	: 'continue';
+ADICAO		: '+'	;
+SUBTRACAO	: '-'	;
+MULTIPLICACAO	: '*'	;
+DIFERENTED	: '!='	;
+IGUAL		: '='	;
+MAIORQUE	: '>'	;
+MENORQUE	: '<'	;
+MAIORIGUAL	: '>='	;
+MENORIGUAK	: '<='	;
+BOOLEAN		: 'true'|'false';
+IF	        : 'if';
+ELSE		: 'else';
 
 
 HEXLIT : (HEXDIGITO|NUM)+;
