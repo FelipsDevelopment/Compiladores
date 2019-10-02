@@ -94,7 +94,7 @@ int_literal : decimal_literal | hex_literal;
 decimal_literal : NUM;
 
 
-hex_literal : HEXLITERAL;
+hex_literal : HEXLIT;
 
 
 bool_literal : BOOLEAN;

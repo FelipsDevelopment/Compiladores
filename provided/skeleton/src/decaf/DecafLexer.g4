@@ -51,7 +51,6 @@ ELSE		: 'else';
 
 
 
-
 HEXLIT : (HEXDIGITO|NUM)+;
 
 NUM : INT(INT)*;
@@ -65,15 +64,13 @@ ID  : (LET|'_') (LET|'_'|NUM)*;
 WS_ : (' ' | '\n'|'\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
-
-HEXLITERAL : HEXDIGITO; 
-
+ 
 
 fragment
 ESC :  '\\' ('n'|'t'|'"'|'\\');
 
 fragment 
-SIMB : ('\\\"'|'.'|','|'\\\''|'?'|':');
+SIMB : ('\\\"'|'.'|','|'\\\''|'?'|':'|'%');
 
 fragment 
 LET :  ('a'..'z'|'A'..'Z');
