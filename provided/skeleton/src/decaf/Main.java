@@ -2,9 +2,18 @@ package decaf;
 
 import java.io.*;
 //import antlr.Token;
+import java.util.Arrays;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.gui.TreeViewer;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import java6035.tools.CLI.*;
 
 class Main {
@@ -31,27 +40,24 @@ class Main {
 
 		        			switch (token.getType())
 		        			{
-		        			case DecafLexer.ID:
-		        				type = " IDENTIFIER";
-		        				break;
-						case DecafLexer.CHAR:
-							type = " CHARLITERAL";
-							break;
-						case DecafLexer.HEXLIT:
-							type = " INITLITERAL";
-							break;
-						case DecafLexer.STRING:
-							type = " STRINGLITERAL";
-							break;
-						case DecafLexer.BOOLEAN:
-   							type =" BOOLEANLITERAL";
-							break;
+								case DecafLexer.IDENTIFIER:
+									type = " IDENTIFIER";
+									break;
+								case DecafLexer.CHAR_LITERAL:
+									type = " CHARLITERAL";
+									break;
+								case DecafLexer.STRING_LITERAL:
+									type = " STRINGLITERAL";
+									break;
+								case DecafLexer.INTEGER_LITERAL:
+									type = " INTLITERAL";
+									break;
+								case DecafLexer.BOOLEAN_LITERAL:
+									type = " BOOLEANLITERAL";
+									break;
 		        			}
-
 		        			System.out.println (token.getLine() + type + " " + text);
-
 		        		}
-
 		        		done = true;
         			} catch(Exception e) {
         	        	// print the error:
@@ -62,11 +68,37 @@ class Main {
         	}
         	else if (CLI.target == CLI.PARSE || CLI.target == CLI.DEFAULT)
         	{
-        		DecafLexer lexer = new DecafLexer(new ANTLRInputStream(inputStream));
-				CommonTokenStream tokens = new CommonTokenStream(lexer);
-        		DecafParser parser = new DecafParser(tokens);
-                parser.program();
-        	}
+        	    // Primeiro faz o parsing da cadeia
+                DecafLexer lexer = new DecafLexer(new ANTLRInputStream(inputStream));
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+                DecafParser parser = new DecafParser(tokens);
+
+                // Adiciona as regras semÃ¢nticas
+                ParseTree tree = parser.program();
+
+                if (CLI.debug) {
+                    // Se estiver no modo debug imprime a Ã¡rvore de parsing
+                    // Create Tree View
+                    // Source: https://stackoverflow.com/questions/23809005/how-to-display-antlr-tree-gui
+
+
+                    //show AST in console
+                    System.out.println(tree.toStringTree(parser));
+
+                    //show AST in GUI
+                    JFrame frame = new JFrame("Antlr AST");
+                    JPanel panel = new JPanel();
+                    TreeViewer viewr = new TreeViewer(Arrays.asList(
+                            parser.getRuleNames()),tree);
+                    viewr.setScale(1.5);//scale a little
+                    panel.add(viewr);
+                    frame.add(panel);
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setSize(200,200);
+                    frame.setVisible(true);
+                }
+
+            }
         	
         } catch(Exception e) {
         	// print the error:
@@ -74,4 +106,3 @@ class Main {
         }
     }
 }
-

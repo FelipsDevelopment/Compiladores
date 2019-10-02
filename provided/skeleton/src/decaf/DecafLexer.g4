@@ -24,6 +24,9 @@ COLCHETESQ	: '[';
 PONTOVIRGULA	: ';';
 VIRGULA		: ',';
 BARRAVERTICAL	: '|';
+BARRABARRA	: '||';
+BARRA		: '/'; 
+PORCENTAGEM	: '%'; 
 AND        	: '&&';
 BOOL		: 'boolean';
 CALL		: 'callout';
@@ -39,15 +42,21 @@ CONTINUE	: 'continue';
 ADICAO		: '+'	;
 SUBTRACAO	: '-'	;
 MULTIPLICACAO	: '*'	;
+EXCLAMACAO	: '!'	;
 DIFERENTED	: '!='	;
 IGUAL		: '='	;
+IGUALIGUAL	: '=='  ;
 MAIORQUE	: '>'	;
 MENORQUE	: '<'	;
 MAIORIGUAL	: '>='	;
-MENORIGUAK	: '<='	;
+MENORIGUAL	: '<='	;
+MAISIGUAL	: '+='	;
+MENOSIGUAL	: '-='	;
 BOOLEAN		: 'true'|'false';
 IF	        : 'if';
 ELSE		: 'else';
+
+
 
 
 HEXLIT : (HEXDIGITO|NUM)+;
@@ -58,11 +67,13 @@ CHAR : '\'' (ESC|NUM|LET)'\'';
 
 STRING : '\"' (WS_|ESC|NUM|LET|SIMB)*'\"';
 
-ID  : (LET|'_'|NUM|'forpar')+;
+ID  : (LET|'_'|NUM|'forpar')+;	
 
 WS_ : (' ' | '\n'|'\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
+
+HEXLITERAL : HEXDIGITO; 
 
 
 fragment
