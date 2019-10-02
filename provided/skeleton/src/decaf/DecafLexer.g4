@@ -9,11 +9,6 @@ options
   language=Java;
 }
 
-tokens
-{
-  TK_class
-}
-
 
 PARENTESESDIR   : ')';	 
 PARENTESESESQ   : '(';
@@ -31,13 +26,11 @@ AND        	: '&&';
 BOOL		: 'boolean';
 CALL		: 'callout';
 CLASS		: 'class';
-INT		: 'int';
+T_INT		: 'int';
 RETURN		: 'return';
 VOID		: 'void';
 FOR		: 'for';
 BREAK		: 'break';
-MAIN		: 'main';
-PROGRAM		: 'Program';
 CONTINUE	: 'continue';
 ADICAO		: '+'	;
 SUBTRACAO	: '-'	;
@@ -61,13 +54,13 @@ ELSE		: 'else';
 
 HEXLIT : (HEXDIGITO|NUM)+;
 
-NUM : ('0'..'9');
+NUM : INT(INT)*;
 
 CHAR : '\'' (ESC|NUM|LET)'\'';
 
 STRING : '\"' (WS_|ESC|NUM|LET|SIMB)*'\"';
 
-ID  : (LET|'_'|NUM|'forpar')+;	
+ID  : (LET|'_') (LET|'_'|NUM)*;	
 
 WS_ : (' ' | '\n'|'\t' ) -> skip;
 
@@ -87,5 +80,8 @@ LET :  ('a'..'z'|'A'..'Z');
 
 fragment
 HEXDIGITO : '0x'(NUM|'a'..'f'|'A'..'F')+; 
+
+fragment
+INT : ('0'..'9');
 
 

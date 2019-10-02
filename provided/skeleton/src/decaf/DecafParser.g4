@@ -10,23 +10,23 @@ options
   tokenVocab=DecafLexer;
 }
 
-program	    : TK_class ID CHAVESQ field_decl method_decl CHAVESDIR EOF;
+program	    : CLASS ID CHAVESQ field_decl* method_decl* CHAVEDIR EOF;
 
-field_decl  : PARENTESESESQ type ID | type ID COLCHETESQ NUM COLCHETEDIR PARENTESESDIR;
+field_decl  : (type ID | type ID COLCHETESQ int_literal COLCHETEDIR) (VIRGULA type? ID | VIRGULA type? ID COLCHETESQ int_literal COLCHETEDIR)* PONTOVIRGULA;
 
-method_decl : PARENTESESESQ type | VOID PARENTESESDIR ID PARENTESESESQ C0LCHETESQ CHAVESQ type ID CHAVEDIR ADICAO VIRGULA COLCHETEDIR PARENTESESDIR block;
+method_decl : (type | VOID ) ID PARENTESESESQ (( type ID | type ID COLCHETESQ int_literal COLCHETEDIR)(VIRGULA type? ID | VIRGULA type? ID COLCHETESQ int_literal COLCHETEDIR)*)* PARENTESESDIR block;
 
-block	    : CHAVESESQ var_decl MULTIPLICACAO statement MULTIPLICACAO CHAVESDIR;
+block	    : CHAVESQ var_decl* statement* CHAVEDIR;
 
-var_decl    : type ID ADICAO VIRGULA PONTOVIRGULA;
+var_decl    : type ID (VIRGULA ID)* PONTOVIRGULA;
  
-type	    : NUM | BOOLEAN;
+type	    : T_INT | BOOL;
 
 statement   : location assign_op expr PONTOVIRGULA 
 	    | method_call PONTOVIRGULA 
-	    | IF PARENTESESESQ expr PARENTESESDIR block COLCHETESQ ELSE block COLCHETEDIR
-	    | FOR ID = expr VIRGULA expr block
-  	    | RETURN COLCHETESQ expr COLCHETDIR PONTOVIRGULA
+	    | IF PARENTESESESQ expr PARENTESESDIR block (ELSE block)?
+	    | FOR ID IGUAL expr VIRGULA expr block
+  	    | RETURN  expr? PONTOVIRGULA
 	    | BREAK PONTOVIRGULA
 	    | CONTINUE PONTOVIRGULA
 	    | block;
@@ -37,9 +37,8 @@ assign_op   : IGUAL
 	    | MENOSIGUAL;
 
 
-method_call : method_name PARENTESESQ COLCHETESQ expr COLCHETEDIR PARENTESESDIR
-	    | CALL PARENTESESESQ string_literal COLCHETESQ callout_arg COLCHETEDIR PARENTESESDIR;
-
+method_call : method_name PARENTESESESQ ((expr) (VIRGULA expr)*)? PARENTESESDIR | CALL PARENTESESESQ STRING VIRGULA STRING (VIRGULA callout_arg) PARENTESESDIR;
+	   
 
 method_name : ID;
 
@@ -77,36 +76,33 @@ cond_op	    : AND | BARRABARRA;
 literal	    : int_literal | char_literal | bool_literal;
 
 
-id	    : alpha alpha_num MULPLICACAO;
-
-
 alpha_num   : alpha | digit;
 
 
 alpha 	    : LET;
 
 
-digit	    : NUM;
+digit	    : INT;
 
 
-hex_digit   : HEXLIT;
+hex_digit   : digit | LET+;
 
 
 int_literal : decimal_literal | hex_literal;
 
 
-decimal_literal : digit digit MULPLICACAO;
+decimal_literal : NUM;
 
 
 hex_literal : HEXLITERAL;
 
 
-bool_literal : TRUE | FALSE;
+bool_literal : BOOLEAN;
 
 
-char_literal : CHAR MULTIPLICACAO;
+char_literal : CHAR ;
 
 
-string_literal : STRING MULPLICACAO;
+string_literal : STRING ;
 
 
