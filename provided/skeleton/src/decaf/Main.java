@@ -76,12 +76,6 @@ class Main {
         	        }
         		}
         	}
-
-
-
-
-
-
         	else if (CLI.target == CLI.PARSE || CLI.target == CLI.DEFAULT)
         	{
         	    // Primeiro faz o parsing da cadeia

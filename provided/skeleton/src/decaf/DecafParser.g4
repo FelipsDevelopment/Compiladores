@@ -82,7 +82,7 @@ alpha_num   : alpha | digit;
 alpha 	    : LET;
 
 
-digit	    : INT;
+digit	    : NUM;
 
 
 hex_digit   : digit | LET+;
@@ -104,5 +104,8 @@ char_literal : CHAR ;
 
 
 string_literal : STRING ;
+
+
+type_id: type ID;
 
 

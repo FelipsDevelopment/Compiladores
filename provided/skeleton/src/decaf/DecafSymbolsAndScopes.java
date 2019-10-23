@@ -32,7 +32,7 @@ public class DecafSymbolsAndScopes extends DecafParserBaseListener {
 
     @Override
     public void enterMethod_decl(DecafParser.Method_declContext ctx) {
-        String name = ctx.IDENTIFIER().getText();
+        String name = ctx.ID().getText();
         int typeTokenType = ctx.type().start.getType();
         DecafSymbol.Type type = this.getType(typeTokenType);
 
@@ -62,22 +62,8 @@ public class DecafSymbolsAndScopes extends DecafParserBaseListener {
         popScope();
     }
 
-    @Override
-    public void enterDecl(DecafParser.DeclContext ctx) {
-        defineVar(ctx.type(), ctx.IDENTIFIER().getSymbol());
-    }
 
-    @Override
-    public void exitDecl(DecafParser.DeclContext ctx) {
-        String name = ctx.IDENTIFIER().getSymbol().getText();
-        Symbol var = currentScope.resolve(name);
-        if ( var==null ) {
-            this.error(ctx.IDENTIFIER().getSymbol(), "no such variable: "+name);
-        }
-        if ( var instanceof FunctionSymbol ) {
-            this.error(ctx.IDENTIFIER().getSymbol(), name+" is not a variable");
-        }
-    }
+
 
     void defineVar(DecafParser.TypeContext typeCtx, Token nameToken) {
         int typeTokenType = typeCtx.start.getType();
@@ -135,6 +121,5 @@ public class DecafSymbolsAndScopes extends DecafParserBaseListener {
         }
         return DecafSymbol.Type.tINVALID;
     }
-
 
 }

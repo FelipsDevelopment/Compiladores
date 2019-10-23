@@ -1,4 +1,4 @@
-lexer grammar DecafLexer;
+ lexer grammar DecafLexer;
 
 @header {
 package decaf;
@@ -64,6 +64,8 @@ ID  : (LET|'_') (LET|'_'|NUM)*;
 WS_ : (' ' | '\n'|'\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
+
+LET : LETR(LETR)*;
  
 
 fragment
@@ -72,8 +74,8 @@ ESC :  '\\' ('n'|'t'|'"'|'\\');
 fragment 
 SIMB : ('\\\"'|'.'|','|'\\\''|'?'|':'|'%');
 
-fragment 
-LET :  ('a'..'z'|'A'..'Z');
+fragment
+LETR :  ('a'..'z'|'A'..'Z');
 
 fragment
 HEXDIGITO : '0x'(NUM|'a'..'f'|'A'..'F')+; 
