@@ -12,9 +12,9 @@ options
 
 program	    : CLASS ID CHAVESQ field_decl* method_decl* CHAVEDIR EOF;
 
-field_decl  : (type ID | type ID COLCHETESQ int_literal COLCHETEDIR) (VIRGULA type? ID | VIRGULA type? ID COLCHETESQ int_literal COLCHETEDIR)* PONTOVIRGULA;
+field_decl  : (type ID | type_id COLCHETESQ int_literal COLCHETEDIR) (VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)* PONTOVIRGULA;
 
-method_decl : (type | VOID ) ID PARENTESESESQ (( type ID | type ID COLCHETESQ int_literal COLCHETEDIR)(VIRGULA type? ID | VIRGULA type? ID COLCHETESQ int_literal COLCHETEDIR)*)* PARENTESESDIR block;
+method_decl : (type | VOID ) ID PARENTESESESQ (( type_id | type_id COLCHETESQ int_literal COLCHETEDIR)(VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)*)* PARENTESESDIR block;
 
 block	    : CHAVESQ var_decl* statement* CHAVEDIR;
 
@@ -106,6 +106,6 @@ char_literal : CHAR ;
 string_literal : STRING ;
 
 
-type_id: type ID;
+type_id : type ID;
 
-
+type_id2 : type? ID;
