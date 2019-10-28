@@ -14,11 +14,15 @@ program	    : CLASS ID CHAVESQ field_decl* method_decl* CHAVEDIR EOF;
 
 field_decl  : (type_id | type_id COLCHETESQ int_literal COLCHETEDIR) (VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)* PONTOVIRGULA;
 
-method_decl : (type | VOID ) ID PARENTESESESQ (( type_id | type_id COLCHETESQ int_literal COLCHETEDIR)(VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)*)* PARENTESESDIR block;
+method_decl : (type | VOID ) ID PARENTESESESQ (type_id (VIRGULA type_id | type_id COLCHETESQ int_literal COLCHETEDIR)(VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)*)* PARENTESESDIR block;
 
 block	    : CHAVESQ var_decl* statement* CHAVEDIR;
 
 var_decl    : type_id (VIRGULA ID)* PONTOVIRGULA;
+
+type_id : type ID (VIRGULA ID)*;
+
+type_id2 : type? ID;
  
 type	    : T_INT | BOOL;
 
@@ -37,7 +41,7 @@ assign_op   : IGUAL
 	    | MENOSIGUAL;
 
 
-method_call : method_name PARENTESESESQ ((expr) (VIRGULA expr)*)? PARENTESESDIR | CALL PARENTESESESQ STRING (VIRGULA callout_arg) PARENTESESDIR;
+method_call : method_name PARENTESESESQ ((expr) (VIRGULA expr)*)? PARENTESESDIR | CALL PARENTESESESQ STRING (VIRGULA callout_arg)* PARENTESESDIR;
 	   
 
 method_name : ID;
@@ -106,6 +110,3 @@ char_literal : CHAR ;
 string_literal : STRING ;
 
 
-type_id : type ID;
-
-type_id2 : type? ID;
