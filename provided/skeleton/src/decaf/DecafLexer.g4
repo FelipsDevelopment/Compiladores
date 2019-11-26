@@ -9,78 +9,60 @@ options
   language=Java;
 }
 
-
 PARENTESESDIR   : ')';	 
 PARENTESESESQ   : '(';
 CHAVEDIR        : '}';
 CHAVESQ         : '{';
-COLCHETEDIR	: ']';
-COLCHETESQ	: '[';
-PONTOVIRGULA	: ';';
-VIRGULA		: ',';
-BARRAVERTICAL	: '|';
-BARRABARRA	: '||';
-BARRA		: '/'; 
-PORCENTAGEM	: '%'; 
-AND        	: '&&';
-BOOL		: 'boolean';
-CALL		: 'callout';
-CLASS		: 'class';
-T_INT		: 'int';
+COLCHETEDIR	    : ']';
+COLCHETESQ	    : '[';
+BARRAVERTICAL	  : '|';
+BOOLEAN		: 'boolean';
+CALL	   	: 'callout';
+CLASS		  : 'class';
+T_INT		  : 'int';
 RETURN		: 'return';
-VOID		: 'void';
-FOR		: 'for';
-BREAK		: 'break';
+VOID	  	: 'void';
+FOR		    : 'for';
+BREAK		  : 'break';
+PROGRAM   : 'Program';
 CONTINUE	: 'continue';
-ADICAO		: '+'	;
-SUBTRACAO	: '-'	;
-MULTIPLICACAO	: '*'	;
-EXCLAMACAO	: '!'	;
-DIFERENTED	: '!='	;
-IGUAL		: '='	;
-IGUALIGUAL	: '=='  ;
-MAIORQUE	: '>'	;
-MENORQUE	: '<'	;
-MAIORIGUAL	: '>='	;
-MENORIGUAL	: '<='	;
-MAISIGUAL	: '+='	;
-MENOSIGUAL	: '-='	;
-BOOLEAN		: 'true'|'false';
-IF	        : 'if';
-ELSE		: 'else';
+IF	      : 'if';
+ELSE		  : 'else';
+OPERADORES      : ('+' | '-' | '*' | '/' | '%');
+COMPARACAO      : ('<' | '>' | '<=' | '>=' );
+OP_DE_IGUALDADE : ('==' | '!=');
+EE              : ('&&' | '||');
+ATRIBUICAO      : ('+=' | '-=');
+IGUAL		        : '='	;
+PONTUACAO       : ','|';'|'!';
+HIFEN           : '-';
+INTLIT     : [0-9]+ ('x' ([a-fA-F] | [0-9])+)?;
+BOOLEANLIT : 'true'|'false';
 
 
+CHAR       : '\'' ([!#-&(-.0-Z^-~] | INT | ESC)'\'';
 
-HEXLIT : (HEXDIGITO|NUM)+;
+STRING     : '"' ( ID | SIMB )+'"';
 
-NUM : INT(INT)*;
+ID         : ('a'..'z'|'A'..'Z'|'_'|'%' )+ ([0-9])* ID?;	
 
-CHAR : '\'' (ESC|NUM|LET)'\'';
-
-STRING : '\"' (WS_|ESC|NUM|LET|SIMB)*'\"';
-
-ID  : (LET|'_') (LET|'_'|NUM)*;	
-
-WS_ : (' ' | '\n'|'\t' ) -> skip;
+WS_        : (' ' | '\n'|'\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
 
-LET : LETR(LETR)*;
- 
 
 fragment
 ESC :  '\\' ('n'|'t'|'"'|'\\');
 
 fragment 
-SIMB : ('\\\"'|'.'|','|'\\\''|'?'|':'|'%');
+SIMB : ('.'|'?'|','|':'|';'|' '|'!'| ESP);
 
 fragment
-LETR :  ('a'..'z'|'A'..'Z');
-
-fragment
-HEXDIGITO : '0x'(NUM|'a'..'f'|'A'..'F')+; 
+ESP:  '\\' ('\'' | '\"' | '\\' | ID);
 
 fragment
 INT : ('0'..'9');
+
+
 
 

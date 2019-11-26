@@ -10,103 +10,58 @@ options
   tokenVocab=DecafLexer;
 }
 
-program	    : CLASS ID CHAVESQ field_decl* method_decl* CHAVEDIR EOF;
+program	    : CLASS PROGRAM CHAVESQ (var_decl+)* method_decl* CHAVEDIR ;
 
-field_decl  : (type_id | type_id COLCHETESQ int_literal COLCHETEDIR) (VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)* PONTOVIRGULA;
+method_decl : (type | VOID ) ID PARENTESESESQ ((var_decl)+ PONTUACAO*)? PARENTESESDIR block_decl ;
 
-method_decl : (type | VOID ) ID PARENTESESESQ (type_id (VIRGULA type_id | type_id COLCHETESQ int_literal COLCHETEDIR)(VIRGULA type_id2 | VIRGULA type_id2 COLCHETESQ int_literal COLCHETEDIR)*)* PARENTESESDIR block;
+block_decl	: CHAVESQ var_decl* statement_decl* CHAVEDIR ;
 
-block	    : CHAVESQ var_decl* statement* CHAVEDIR;
+var_decl    : type (ID PONTUACAO* )* array_decl? PONTUACAO*;
 
-var_decl    : type_id (VIRGULA ID)* PONTOVIRGULA;
+array_decl	: COLCHETESQ INTLIT COLCHETEDIR;
 
-type_id : type ID (VIRGULA ID)*;
-
-type_id2 : type? ID;
+type_decl   : type ID;
  
-type	    : T_INT | BOOL;
+type	    : T_INT | BOOLEAN;
 
-statement   : location assign_op expr PONTOVIRGULA 
-	    | method_call PONTOVIRGULA 
-	    | IF PARENTESESESQ expr PARENTESESDIR block (ELSE block)?
-	    | FOR ID IGUAL expr VIRGULA expr block
-  	    | RETURN  expr? PONTOVIRGULA
-	    | BREAK PONTOVIRGULA
-	    | CONTINUE PONTOVIRGULA
-	    | block;
-
-
-assign_op   : IGUAL 
-	    | MAISIGUAL
-	    | MENOSIGUAL;
+statement_decl   : location_decl assign_op expr_decl PONTUACAO 
+	    | method_call PONTUACAO 
+	    | IF (expr_decl block_decl) (ELSE block_decl)?
+	    | FOR ID IGUAL expr_decl PONTUACAO* expr_decl block_decl
+  	    | RETURN  expr_decl? PONTUACAO
+	    | BREAK PONTUACAO
+	    | CONTINUE PONTUACAO
+	    | block_decl;
 
 
-method_call : method_name PARENTESESESQ ((expr) (VIRGULA expr)*)? PARENTESESDIR | CALL PARENTESESESQ STRING (VIRGULA callout_arg)* PARENTESESDIR;
+assign_op   : ATRIBUICAO | IGUAL ;
+
+
+method_call : ID PARENTESESESQ expr_decl (PONTUACAO expr_decl)* PARENTESESDIR 
+			| CALL PARENTESESESQ STRING (PONTUACAO* (expr_decl | STRING)+ PONTUACAO*)? PARENTESESDIR;
 	   
-
 method_name : ID;
 
 
-location    : ID
-	    | ID COLCHETESQ expr COLCHETEDIR;
+location_decl  : ID | ID COLCHETESQ expr_decl COLCHETEDIR;
 
-expr	    : location
+expr_decl	: location_decl
 	    | method_call
-	    | literal
-	    | expr bin_op expr
-	    | SUBTRACAO expr
-	    | EXCLAMACAO expr
-	    | PARENTESESESQ expr PARENTESESDIR;
-
+	    | identifier_decl
+	    | expr_decl bin_op expr_decl
+	    | bin_op expr_decl*
+	    | PONTUACAO expr_decl*
+	    | PARENTESESESQ expr_decl PARENTESESDIR;
 	
-callout_arg : expr | string_literal;
 
+identifier_decl: INTLIT INTLIT* | INTLIT | CHAR | BOOLEANLIT; 	
 
-bin_op	    : arith_op | rel_op | eq_op | cond_op;
+bin_op	    : op | comp | igual | and;
 
+op : OPERADORES ;
 
-arith_op    : ADICAO | SUBTRACAO | MULTIPLICACAO | BARRA  | PORCENTAGEM;
+comp : COMPARACAO;
 
+igual: OP_DE_IGUALDADE;
 
-rel_op	    : MENORQUE | MAIORQUE | MENORIGUAL | MAIORIGUAL ;
-
-
-eq_op 	    : IGUALIGUAL | DIFERENTED;
-
-
-cond_op	    : AND | BARRABARRA;
-
-
-literal	    : int_literal | char_literal | bool_literal;
-
-
-alpha_num   : alpha | digit;
-
-
-alpha 	    : LET;
-
-
-digit	    : NUM;
-
-
-hex_digit   : digit | LET+;
-
-
-int_literal : decimal_literal | hex_literal;
-
-
-decimal_literal : NUM;
-
-
-hex_literal : HEXLIT;
-
-
-bool_literal : BOOLEAN;
-
-
-char_literal : CHAR ;
-
-
-string_literal : STRING ;
-
-
+and: EE;
