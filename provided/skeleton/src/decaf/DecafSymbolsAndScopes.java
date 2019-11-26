@@ -23,13 +23,11 @@ public class MetodosClass{
         return this.metodo_nome;}
         public void setMetodo_nome(String metodo_nome) {
         this.metodo_nome=metodo_nome;}
-
 }
 
 ArrayList<String> vars = new ArrayList();
 ArrayList<String> Escopos = new ArrayList();
 ArrayList<String> Metodos = new ArrayList();
-
 
     ParseTreeProperty<Scope> scopes = new ParseTreeProperty<Scope>();
     GlobalScope globals;
@@ -42,10 +40,8 @@ ArrayList<String> Metodos = new ArrayList();
         for (int i=0; i<ctx.var_decl().size(); i++){
             for (int j=0; j<ctx.var_decl().get(i).ID().size(); j++){
              String globals = ctx.var_decl().get(i).ID().get(j).getText();
-
-         }
-     }
-
+            }
+        }
         pushScope(globals);
     }
 
@@ -61,7 +57,6 @@ ArrayList<String> Metodos = new ArrayList();
     //System.out.println(globals);
     popScope();
 
-
      try { 
 
        for(int i =0; i<ctx.method_decl().size(); i++){
@@ -76,7 +71,7 @@ ArrayList<String> Metodos = new ArrayList();
         if(!Escopos.contains("main")){
              this.error(ctx.method_decl().get(0).ID().getSymbol(), "This Scope has not been declared: main");
              System.exit(0);
-         }
+        }
 
       }catch (Exception e) {  }
 
@@ -94,33 +89,31 @@ ArrayList<String> Metodos = new ArrayList();
 
             if(varType.equals("int")){
                 for(int j =0; j<ctx.method_decl().get(i).var_decl().size(); j++){
-                //System.out.println("Vars: "+ctx.method_decl().get(i).var_decl().get(j).getText());
                 typeAtual[cont] = ctx.method_decl().get(i).var_decl().get(j).type().getText();
                 cont++;
                 qtdVars++;
                 }
-            //System.out.println("QTDVARS: "+qtdVars);
+
             } 
 
             for(int j =0; j<ctx.method_decl().get(1).block_decl().statement_decl().size(); j++){
                 for(int k =0; k<ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().size(); k++){
                     String metodoName = ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().ID().getText();
 
-                    if(varName.equals(metodoName)){ 
+                        if(varName.equals(metodoName)){ 
                             for(int o = 0; o<ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().expr_decl().size(); o++){
-                             //System.out.println("VarsMetodos: "+ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().expr_decl().get(o).getText());
                              String varAtualMetodo =ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().expr_decl().get(o).getText();
                              qtdVarsMetodo++;
 
                              try{
-                             if(typeAtual[cont2].equals("int")){
+                            if(typeAtual[cont2].equals("int")){
                                 if(varAtualMetodo.matches("[a-z]+")){
                                     this.error(ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().ID().getSymbol(), "Error, the method: "+varName+", in "+(cont2+1)+" value, expected a type "+typeAtual[cont2]+", and was found "+varAtualMetodo);
                                     System.exit(0);
                                 }
-                             }
+                            }
 
-                             if(typeAtual[cont2].equals("boolean")){
+                            if(typeAtual[cont2].equals("boolean")){
                                 if(!varAtualMetodo.equals("true") && !varAtualMetodo.equals("false")){
                                     this.error(ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().ID().getSymbol(), "Error, the method: "+varName+", in "+(cont2+1)+" value, expected a type "+typeAtual[cont2]+", and was found "+varAtualMetodo);
                                     System.exit(0);
@@ -134,31 +127,22 @@ ArrayList<String> Metodos = new ArrayList();
                              this.error(ctx.method_decl().get(1).block_decl().statement_decl().get(j).expr_decl().get(k).method_call().ID().getSymbol(), "Error, the method: "+varName+" expects: "+qtdVars+" variable, was found: "+qtdVarsMetodo);
                              System.exit(0);
                             }  
-                    }
-                    
-                 }
-                
-            } 
-        }
+                        }  
+                    }   
+                } 
+            }
 
         }catch (Exception e) {  }
 
-
-
-       
-
-
-
-      try {
-        int l =0;
+        try {
+            int l =0;
 
         for(int i =0; i<ctx.var_decl().size(); i++){
             if(ctx.var_decl().get(i).getText().contains("[")){
              String ArrayValue =ctx.var_decl().get(i).array_decl().INTLIT().getText();
-             if(ctx.var_decl().get(i).array_decl().getText().contains("[") && ctx.var_decl().get(i).array_decl().getText().contains("]")){
+            if(ctx.var_decl().get(i).array_decl().getText().contains("[") && ctx.var_decl().get(i).array_decl().getText().contains("]")){
               String ArrayName =ctx.var_decl().get(i).ID().get(0).getText();
               String ArrayType =ctx.var_decl().get(i).type().getText();
-
 
                 for(int j=0; j<ctx.method_decl().size(); j++){
                     for(int k=0; k<ctx.method_decl().get(j).block_decl().statement_decl().size(); k++){
@@ -188,19 +172,15 @@ ArrayList<String> Metodos = new ArrayList();
                              if(declaracaoResultado.contains("<") || declaracaoResultado.contains(">") || declaracaoResultado.contains("==") || declaracaoResultado.contains("=<") || declaracaoResultado.contains("=>")){
                              this.error(ctx.method_decl().get(j).block_decl().statement_decl().get(k).location_decl().ID().getSymbol(), " this variable: "+ArrayName+" expects a INT type");
                              System.exit(0);
-                             }
-                             
-
-                           }
+                             }                             
+                            }
                         }
                     }
                 }
-             }   
-
+            }   
         }
     }
        
-
     }catch (Exception e) {  }
 
     try {
@@ -213,7 +193,6 @@ ArrayList<String> Metodos = new ArrayList();
 
         //System.out.println("varType: "+varType+" ,varName: "+varName);
         
-
            if(varType.equals("boolean")){
              for(int k=0; k<ctx.method_decl().size(); k++){
                     for(int l=0; l<ctx.method_decl().get(k).block_decl().statement_decl().size(); l++){
@@ -225,8 +204,7 @@ ArrayList<String> Metodos = new ArrayList();
                                 if(operador.equals("+=") || operador.equals("-=")){
                                   this.error(ctx.method_decl().get(k).block_decl().statement_decl().get(l).location_decl().ID().getSymbol(), "Error in statement on: "+operador);
                                    System.exit(0); 
-                                }
-                                
+                                } 
 
                             }catch (Exception e) {  }
 
@@ -243,66 +221,46 @@ ArrayList<String> Metodos = new ArrayList();
 
                             if(metodoResultadoPrimeiro.matches("[0-9]+")){
                                 if(!metodoResultado.equals("==") || !metodoResultado.equals("!=")){
-                                this.error(ctx.method_decl().get(k).block_decl().statement_decl().get(l).location_decl().ID().getSymbol(), "Error in statement on: "+metodoResultado);
-                                System.exit(0);
+                                  this.error(ctx.method_decl().get(k).block_decl().statement_decl().get(l).location_decl().ID().getSymbol(), "Error in statement on: "+metodoResultado);
+                                  System.exit(0);
                                 }
-                              }
+                            }
 
                             try{
-                            String metodoResultadoSegundo = ctx.method_decl().get(k).block_decl().statement_decl().get(l).expr_decl().get(o).expr_decl().get(1).getText();
+                                String metodoResultadoSegundo = ctx.method_decl().get(k).block_decl().statement_decl().get(l).expr_decl().get(o).expr_decl().get(1).getText();
                             if(metodoResultadoSegundo.equals("true") || metodoResultadoSegundo.equals("false")){
                                 if(!metodoResultadoPrimeiro.equals("true") && !metodoResultadoPrimeiro.equals("false")){
-                                this.error(ctx.method_decl().get(k).block_decl().statement_decl().get(l).location_decl().ID().getSymbol(), "Error in statement on: "+metodoResultado);
-                                System.exit(0);
+                                    this.error(ctx.method_decl().get(k).block_decl().statement_decl().get(l).location_decl().ID().getSymbol(), "Error in statement on: "+metodoResultado);
+                                    System.exit(0);
                                 }
-                              }
+                            }
 
-                            }catch (Exception e) {  }
-
-                            
-
-                            
-                               
-                        }
-                            
-                    }
-                        
+                            }catch (Exception e) {  }                     
+                        }       
+                    }     
                 }
-           }
-       }
+            }
+        }
     }
-
     }
 
     }catch (Exception e) {  }
-        
-}
+    }
 
     @Override 
     public void enterMethod_call(DecafParser.Method_callContext ctx) {
-
      }
 
     @Override 
     public void exitMethod_call(DecafParser.Method_callContext ctx) {
-
      }
 
     @Override
     public void enterMethod_decl(DecafParser.Method_declContext ctx) {
         String name = ctx.ID().getText();
         Escopos.add(ctx.ID().getText());
-        //System.out.println("-----> Escopos: "+ctx.ID().getText());
-
-
-        //int typeTokenType = ctx.type().start.getType();
-        //DecafSymbol.Type type = this.getType(typeTokenType);
-
-        // push new scope by making new one that points to enclosing scope
         FunctionSymbol function = new FunctionSymbol(name);
-        // function.setType(type); // Set symbol type
-
-        currentScope.define(function); // Define function in current scope
+        currentScope.define(function); 
         saveScope(ctx, function);
         pushScope(function);
           try{
@@ -315,7 +273,7 @@ ArrayList<String> Metodos = new ArrayList();
                   if(returns.equals("return")){
                     this.error(ctx.block_decl().statement_decl().get(i).RETURN().getSymbol(), "This method cannot contain return: "+ctx.ID().getText());
                     System.exit(0);
-                  }
+                }
             }
         }
         }catch (Exception e) {  }
@@ -327,7 +285,7 @@ ArrayList<String> Metodos = new ArrayList();
             for(int i=0;i<ctx.block_decl().statement_decl().size(); i++){
                 String returns =ctx.block_decl().statement_decl().get(i).RETURN().getText();
 
-                  if(returns.equals("return")){
+                if(returns.equals("return")){
                     for(int j=0;j<ctx.block_decl().statement_decl().get(i).expr_decl().size(); j++){
 
                     String tipoRetorno = ctx.block_decl().statement_decl().get(i).expr_decl().get(j).getText();
@@ -335,15 +293,13 @@ ArrayList<String> Metodos = new ArrayList();
                         this.error(ctx.block_decl().statement_decl().get(i).RETURN().getSymbol(), " this method expects an INT return: "+ctx.ID().getText());
                        System.exit(0);
                     }
-
                     
                     }
-
-                  }
+                }
             }
         }
         }catch (Exception e) {  }
-    }
+        }
 
     @Override 
     public void enterStatement_decl(DecafParser.Statement_declContext ctx) {
@@ -360,60 +316,40 @@ ArrayList<String> Metodos = new ArrayList();
         String metodo = ctx.IF().getText();
         if(metodo.equals("if")){
             for(int i =0; i<ctx.expr_decl().size(); i++){
-                String value =ctx.expr_decl().get(i).getText();
-                
+                String value =ctx.expr_decl().get(i).getText();    
 
                 if(!value.contains("<") && !value.contains(">") && !value.contains("==") && !value.contains("=<") && !value.contains("=>") ){
                  this.error(ctx.IF().getSymbol(), "error in if statement: "+value);
                  System.exit(0);
                 }
             }
-            
         }
       }catch (Exception e) {  }
 
        try {
         String metodo = ctx.FOR().getText();
-          if(metodo.equals("for")){
-               for(int i =0; i<ctx.expr_decl().size(); i++){
+            if(metodo.equals("for")){
+                for(int i =0; i<ctx.expr_decl().size(); i++){
                      String forIgualdade = ctx.expr_decl().get(0).getText();
 
-                     if(forIgualdade.matches("[a-z]+")){
-                         this.error(ctx.FOR().getSymbol(), "The initial condition must be an integer, found: "+forIgualdade);
-                         System.exit(0);
-                     }
-               }
-
-
-        }
+                    if(forIgualdade.matches("[a-z]+")){
+                        this.error(ctx.FOR().getSymbol(), "The initial condition must be an integer, found: "+forIgualdade);
+                        System.exit(0);
+                    }
+                }
+            }
 
         }catch (Exception e) {  }
-
-     }
-
+        }
 
      @Override 
      public void exitStatement_decl(DecafParser.Statement_declContext ctx) { 
-
-
      }
 
     @Override
     public void exitMethod_decl(DecafParser.Method_declContext ctx) {
         popScope();
     }
-
-    /*@Override
-    public void enterBlock_decl(DecafParser.Block_declContext ctx) {
-        LocalScope l = new LocalScope(currentScope);
-        saveScope(ctx, currentScope);
-        pushScope(l);
-    }
-
-    @Override
-    public void exitBlock_decl(DecafParser.Block_declContext ctx) {
-        popScope();
-    } */
 
     @Override public void enterArray_decl(DecafParser.Array_declContext ctx) {
         try{
@@ -424,18 +360,10 @@ ArrayList<String> Metodos = new ArrayList();
             System.exit(0);
        }
 
-
        }catch (Exception e) {  }
-
-
-
-    }
-
-
+       }
 
     @Override public void exitArray_decl(DecafParser.Array_declContext ctx) {
-
-
      }
 
     @Override
@@ -446,8 +374,6 @@ ArrayList<String> Metodos = new ArrayList();
             vars.add(ctx.ID().get(i).getText());
             defineVar(ctx.type(), ctx.ID().get(i).getSymbol());
         }
-
-       //System.out.println("-----> Variaveis: "+varsLocal);
     }
 
     @Override
@@ -455,15 +381,14 @@ ArrayList<String> Metodos = new ArrayList();
         for (int i=0; i<ctx.ID().size(); i++){
             String name = ctx.ID().get(i).getSymbol().getText();
             Symbol var = currentScope.resolve(name);
-        if ( var==null ) {
-            this.error(ctx.ID().get(i).getSymbol(), "no such variable: "+name);
-            System.exit(0);
-        }
-        if ( var instanceof FunctionSymbol ) {
-            this.error(ctx.ID().get(i).getSymbol(), name+" is not a variable");
-            System.exit(0);
-        }
-
+            if ( var==null ) {
+                this.error(ctx.ID().get(i).getSymbol(), "no such variable: "+name);
+                System.exit(0);
+            }
+            if ( var instanceof FunctionSymbol ) {
+                this.error(ctx.ID().get(i).getSymbol(), name+" is not a variable");
+                System.exit(0);
+            }
         }
     }
 
@@ -471,12 +396,8 @@ ArrayList<String> Metodos = new ArrayList();
         int typeTokenType = typeCtx.start.getType();
         VariableSymbol var = new VariableSymbol(nameToken.getText());
 
-         //DecafSymbol.Type type = this.getType(typeTokenType);
-         //var.setType(type);
-
-        currentScope.define(var); // Define symbol in current scope
+        currentScope.define(var); 
     }
-
     /**
      * Método que atuliza o escopo para o atual e imprime o valor
      *
@@ -486,7 +407,6 @@ ArrayList<String> Metodos = new ArrayList();
         currentScope = s;
         System.out.println("entering: "+currentScope.getName()+":"+s);
     }
-
     /**
      * Método que cria um novo escopo no contexto fornecido
      *
@@ -496,7 +416,6 @@ ArrayList<String> Metodos = new ArrayList();
     void saveScope(ParserRuleContext ctx, Scope s) {
         scopes.put(ctx, s);
     }
-
     /**
      * Muda para o contexto superior e atualia o escopo
      */
@@ -507,7 +426,7 @@ ArrayList<String> Metodos = new ArrayList();
 
     public static void error(Token t, String msg) {
         System.err.printf("line %d:%d %s\n", t.getLine(), t.getCharPositionInLine(),
-                msg);
+        msg);
     }
 
     /**
@@ -523,6 +442,4 @@ ArrayList<String> Metodos = new ArrayList();
         }
         return DecafSymbol.Type.tINVALID;
     }
-
-
 }
